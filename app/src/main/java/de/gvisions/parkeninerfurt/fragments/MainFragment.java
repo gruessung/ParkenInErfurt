@@ -51,7 +51,7 @@ public class MainFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         oList.setLayoutManager(llm);
 
-        ParkhausCard oParkhausAdapter = new ParkhausCard(createList(), v.getContext());
+        ParkhausCard oParkhausAdapter = new ParkhausCard(createList(), v.getContext(), getActivity().getApplication());
         oList.setAdapter(oParkhausAdapter);
 
 
@@ -63,7 +63,7 @@ public class MainFragment extends Fragment {
         super.onResume();
         if (oList != null) {
             oList.removeAllViews();
-            oList.setAdapter(new ParkhausCard(createList(), getView().getContext()));
+            oList.setAdapter(new ParkhausCard(createList(), getView().getContext(), getActivity().getApplication()));
         }
     }
 
@@ -82,7 +82,7 @@ public class MainFragment extends Fragment {
             Parkhaus item2 = new Parkhaus();
             item2.sName = "Forum 1";
             item2.sBemerkungen = "Plätze: 100/200\nÖffnunungsstand: offen\nKosten: 1,50€ je Stunde";
-            oReturn.add(item);
+            oReturn.add(item2);
 
 
 

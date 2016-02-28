@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 
+import de.gvisions.parkeninerfurt.fragments.AboutFragment;
 import de.gvisions.parkeninerfurt.fragments.MainFragment;
 import de.madcyph3r.materialnavigationdrawer.MaterialNavigationDrawer;
 import de.madcyph3r.materialnavigationdrawer.activity.MaterialNavHeadItemActivity;
@@ -16,6 +17,7 @@ import de.madcyph3r.materialnavigationdrawer.listener.MaterialSectionChangeListe
 import de.madcyph3r.materialnavigationdrawer.menu.MaterialMenu;
 import de.madcyph3r.materialnavigationdrawer.menu.item.section.MaterialItemSection;
 import de.madcyph3r.materialnavigationdrawer.menu.item.section.MaterialItemSectionFragment;
+import de.madcyph3r.materialnavigationdrawer.menu.item.style.MaterialItemDevisor;
 import de.madcyph3r.materialnavigationdrawer.tools.RoundedCornersDrawable;
 
 /**
@@ -68,7 +70,9 @@ public class MainActivity extends MaterialNavHeadItemActivity {
 
         // create menu
         MaterialMenu menu = new MaterialMenu();
-        menu.add(new MaterialItemSectionFragment(this, "Parkhäuser", new MainFragment(), "Ich leihe dir"));
+        menu.add(new MaterialItemSectionFragment(this, "Parkhäuser", new MainFragment(), "Parkhäuser"));
+        menu.add(new MaterialItemDevisor());
+        menu.add(new MaterialItemSectionFragment(this, "Über", new AboutFragment(), "Über"));
 
         drawer.setSectionChangeListener(new MaterialSectionChangeListener() {
             @Override
@@ -108,7 +112,6 @@ public class MainActivity extends MaterialNavHeadItemActivity {
     public void afterInit(Bundle savedInstanceState) {
         android.support.v7.app.ActionBar actionBar = this.getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF33B5E5")));
-        actionBar.setTitle(newTitle);
         Log.d("AFTERINIT", "AFTERINIT OK");
     }
 

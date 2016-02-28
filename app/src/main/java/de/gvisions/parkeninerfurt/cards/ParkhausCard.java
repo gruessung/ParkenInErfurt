@@ -1,5 +1,6 @@
 package de.gvisions.parkeninerfurt.cards;
 
+import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import de.gvisions.parkeninerfurt.ParkenInErfurtApplication;
 import de.gvisions.parkeninerfurt.R;
 import de.gvisions.parkeninerfurt.objects.Parkhaus;
 
@@ -23,11 +25,13 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
 
     private List<Parkhaus> itemList;
     private Context ctx;
+    private Application appl;
 
-    public ParkhausCard(List<Parkhaus> list, Context ctx)
+    public ParkhausCard(List<Parkhaus> list, Context ctx, Application appl)
     {
         this.itemList = list;
         this.ctx = ctx;
+        this.appl = appl;
     }
 
     @Override
@@ -60,12 +64,25 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
                 from(viewGroup.getContext()).
                 inflate(R.layout.card_main_item, viewGroup, false);
 
+        final String sName = viewItem.getTag().toString();
 
+        ImageView btnNav = (ImageView) viewItem.findViewById(R.id.btnNav);
+        btnNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ParkenInErfurtApplication) appl).getTracker().trackEvent("Parkhaus", "Navigation", sName, 1000);
+                Toast.makeText(view.getContext(), "geklickt auf Navigation " + sName, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         viewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ((ParkenInErfurtApplication) appl).getTracker().trackEvent("Parkhaus", "Klick auf Karte", v.getTag().toString(), 1000);
+
+
 
                 Toast.makeText(v.getContext(), "geklickt auf Karte " + v.getTag(), Toast.LENGTH_SHORT).show();
 

@@ -34,4 +34,6 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'de.madcyph3r:materialDrawer:2.0.0@aar'
     compile 'com.github.machinarius:preferencefragment:0.1.1'
+    compile 'org.piwik.sdk:piwik-sdk:0.0.4'
+
 }

@@ -2,8 +2,21 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- Set AppCompat’s color theming attrs -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/darkblue</item>
         <item name="windowActionBar">false</item>
 
-    </style>
 
+
+        <item name="colorAccent">#ECEFF1</item>
+
+        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
+
+    </style>
+    <style name="AppTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/blue</item>
+
+    </style>
 </resources>
