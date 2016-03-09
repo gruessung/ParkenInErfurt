@@ -1,12 +1,17 @@
 package de.gvisions.parkeninerfurt;
 
+import android.annotation.TargetApi;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import de.gvisions.parkeninerfurt.fragments.AboutFragment;
 import de.gvisions.parkeninerfurt.fragments.MainFragment;
@@ -88,9 +93,9 @@ public class MainActivity extends MaterialNavHeadItemActivity {
         });
 
         // create Head Item
-        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_maps_directions);
         final RoundedCornersDrawable drawableAppIcon = new RoundedCornersDrawable(getResources(), bitmap);
-        MaterialHeadItem headItem = new MaterialHeadItem(this, "Parken in Erfurt", "Hallo!", drawableAppIcon, R.drawable.ic_launcher, menu);
+        MaterialHeadItem headItem = new MaterialHeadItem(this, "Parken in Erfurt", "Hallo!", null, R.drawable.erfurt, menu);
         this.addHeadItem(headItem);
 
         this.setActionBarOverlay(false);
@@ -120,4 +125,7 @@ public class MainActivity extends MaterialNavHeadItemActivity {
         super.onPostCreate(savedInstanceState);
         afterInit(savedInstanceState);
     }
+
+
+
 }

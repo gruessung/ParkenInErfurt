@@ -4,6 +4,7 @@ package de.gvisions.parkeninerfurt.objects;
  * Created by alex on 26.02.16.
  */
 public class Parkhaus {
+    public int iId;
     public String sName;
     public String sKoordinaten;
     public String sTyp;

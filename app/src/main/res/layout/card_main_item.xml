@@ -19,6 +19,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="10dp"
+                android:id="@+id/cardColor"
                 android:background="@android:color/holo_red_dark"
                 android:layout_height="fill_parent">
 
@@ -33,51 +34,48 @@
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="left">
 
-                        android:maxLines="3"
-                        android:padding="8dp"
-                        android:text="Hallo Welt"
-                        android:textColor="#222"
-                        android:textStyle="bold"
-                        android:textSize="25dp" />
+
+
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:maxLines="3"
+                            android:padding="8dp"
+                            android:text="Hallo Welt"
+                            android:textColor="#222"
+                            android:textStyle="bold"
+                            android:textSize="25dp" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnTrend"
+                            android:src="@drawable/ic_action_trending_up"
+                            android:layout_gravity="left" />
+                    </LinearLayout>
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/title"
-                        android:id="@+id/description"
+                        android:id="@+id/belegung"
                         android:maxLines="3"
                         android:padding="8dp"
                         android:text="Hier kann ein recht langer \nBeschreibungstext stehen, sogar über \nmehrere Zeilen."
                         android:textColor="#666"
                         android:textSize="14dp" />
                 </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/btnTrend"
-                        android:src="@drawable/ic_action_trending_up"
-                        android:layout_gravity="left" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/btnNav"
-                        android:src="@drawable/ic_maps_directions"
-                        android:layout_gravity="right" />
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 

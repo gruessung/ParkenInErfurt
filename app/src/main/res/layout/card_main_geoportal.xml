@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_material_light"
+    android:layout_margin="8dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:maxLines="3"
+            android:padding="8dp"
+            android:text="Quelle: Geoportal Erfurt"
+            android:textColor="#222"
+
+            android:textSize="18dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/refresh"
+            android:src="@drawable/ic_action_autorenew"
+            android:layout_gravity="right"
+            android:paddingRight="0dp" />
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
