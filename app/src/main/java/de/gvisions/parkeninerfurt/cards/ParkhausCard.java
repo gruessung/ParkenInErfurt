@@ -67,16 +67,11 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
             itemViewHolder.cardColor.setVisibility(View.GONE);
             itemViewHolder.cardBelegung.setText("");
             itemViewHolder.cardBelegung.setVisibility(View.GONE);
-            itemViewHolder.cardTrend.setImageResource(R.drawable.ic_action_autorenew);
+            itemViewHolder.cardTrend.setVisibility(View.GONE);
             itemViewHolder.cardTitle.setTextSize(15);
             itemViewHolder.cardTitle.setText("Datenquelle: Geoportal Erfurt");
             itemViewHolder.cardView.setTag(9999);
-            itemViewHolder.cardTrend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    main.createList();
-                }
-            });
+
 
         } else {
             itemViewHolder.cardTitle.setText(item.sName);
@@ -117,8 +112,8 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
                     ctx.startActivity(i);
                 } else {
                     Parkhaus item = itemList.get(Integer.parseInt(v.getTag().toString()));
-                    ((ParkenInErfurtApplication) appl).getTracker().trackEvent("Parkhaus", "Klick auf Karte", item.sName, 1000);
-
+                    ((ParkenInErfurtApplication) appl).getTracker().trackEvent("Parkhaus", "Klick auf Karte", item.sName, 0);
+                    final String name = item.sName;
                     AlertDialog.Builder localBuilder = new AlertDialog.Builder(ctx);
                     localBuilder.setTitle(item.sName);
                     localBuilder.setMessage("Hier sollen dann die restlichen Parkhausinfos stehen");
@@ -126,6 +121,7 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(v.getContext(), "geklickt auf Navigation", Toast.LENGTH_SHORT).show();
+                            ((ParkenInErfurtApplication) appl).getTracker().trackEvent("Parkhaus", "Navigation", name, 0);
                         }
                     }).setIcon(R.drawable.ic_action_info_outline);
                     localBuilder.create().show();

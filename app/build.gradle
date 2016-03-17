@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 21
@@ -23,6 +24,7 @@ repositories {
     maven {
         url 'http://dl.bintray.com/madcyph3r/maven/'
     }
+
 }
 
 dependencies {
@@ -36,5 +38,12 @@ dependencies {
     compile 'de.madcyph3r:materialDrawer:2.0.0@aar'
     compile 'com.github.machinarius:preferencefragment:0.1.1'
     compile 'org.piwik.sdk:piwik-sdk:0.0.4'
+    compile 'com.google.android.gms:play-services-gcm:8.3.0'
+    compile 'eu.inloop:easygcm:1.6.2@aar'
+    compile 'com.android.volley:volley:1.0.0'
 
+
+
+
+    //compile 'com.github.iammert:FastGCM:1.1'
 }

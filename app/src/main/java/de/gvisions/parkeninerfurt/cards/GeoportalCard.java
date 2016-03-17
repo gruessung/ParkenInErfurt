@@ -32,12 +32,7 @@ public class GeoportalCard extends RecyclerView.Adapter<GeoportalCard.ItemViewHo
     @Override
     public void onBindViewHolder(ItemViewHolder itemViewHolder, int i)
     {
-        itemViewHolder.refreshBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                main.createList();
-            }
-        });
+
     }
 
     @Override
@@ -68,7 +63,6 @@ public class GeoportalCard extends RecyclerView.Adapter<GeoportalCard.ItemViewHo
         public ItemViewHolder(View v)
         {
             super(v);
-            refreshBtn = (ImageView) v.findViewById(R.id.refresh);
 
         }
 

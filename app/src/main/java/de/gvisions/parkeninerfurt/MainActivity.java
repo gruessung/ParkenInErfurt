@@ -24,6 +24,7 @@ import de.madcyph3r.materialnavigationdrawer.menu.item.section.MaterialItemSecti
 import de.madcyph3r.materialnavigationdrawer.menu.item.section.MaterialItemSectionFragment;
 import de.madcyph3r.materialnavigationdrawer.menu.item.style.MaterialItemDevisor;
 import de.madcyph3r.materialnavigationdrawer.tools.RoundedCornersDrawable;
+import eu.inloop.easygcm.EasyGcm;
 
 /**
  * Created by alex on 26.02.16.
@@ -41,6 +42,8 @@ public class MainActivity extends MaterialNavHeadItemActivity {
         super.onResume();
 
     }
+
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -68,6 +71,8 @@ public class MainActivity extends MaterialNavHeadItemActivity {
     @Override
     public void init(final Bundle savedInstanceState) {
 
+        EasyGcm.setLoggingLevel(EasyGcm.Logger.LEVEL_WARNING);
+        EasyGcm.init(this);
 
         drawer = this;
 
