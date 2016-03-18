@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.util.List;
 
@@ -53,20 +61,30 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
     {
         Parkhaus item = itemList.get(i);
 
+
         //Farbe errechnen
         int iFrei = item.iGesamt - item.iBelegt;
-        if (iFrei > (item.iGesamt / 2)) {
+        if (iFrei > (item.iGesamt / 3)) {
             itemViewHolder.cardColor.setBackgroundColor(Color.GREEN);
-        } else if (iFrei > (item.iGesamt / 3)) {
+        } else if (iFrei > (item.iGesamt / 4)) {
             itemViewHolder.cardColor.setBackgroundColor(Color.YELLOW);
         } else {
             itemViewHolder.cardColor.setBackgroundColor(Color.RED);
         }
+        Log.d("TENDENZ2", item.sTendenz);
+        if (item.sTendenz.contains("gleich")) {
+            itemViewHolder.cardTrend.setImageResource(R.drawable.ic_action_trending_neutral);
+            Log.d("TENDENZ", "gleichbleibend");
+        } else if (item.sTendenz.contains("fall")) {
+            itemViewHolder.cardTrend.setImageResource(R.drawable.ic_action_trending_down);
+            Log.d("TENDENZ", "falled");
+        } else {
+            itemViewHolder.cardTrend.setImageResource(R.drawable.ic_action_trending_up);
+            Log.d("TENDENZ", "steigend");
+        }
 
         if (item.iId == 9999) {
             itemViewHolder.cardColor.setVisibility(View.GONE);
-            itemViewHolder.cardBelegung.setText("");
-            itemViewHolder.cardBelegung.setVisibility(View.GONE);
             itemViewHolder.cardTrend.setVisibility(View.GONE);
             itemViewHolder.cardTitle.setTextSize(15);
             itemViewHolder.cardTitle.setText("Datenquelle: Geoportal Erfurt");
@@ -75,7 +93,6 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
 
         } else {
             itemViewHolder.cardTitle.setText(item.sName);
-            itemViewHolder.cardBelegung.setText("Belegt: "+item.iBelegt+"/"+item.iGesamt+"\nFrei: "+iFrei+"\nStatus: "+item.sOeffnungsstand);
             itemViewHolder.cardView.setTag(i);
         }
 
@@ -113,21 +130,45 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
                 } else {
                     Parkhaus item = itemList.get(Integer.parseInt(v.getTag().toString()));
                     ((ParkenInErfurtApplication) appl).getTracker().trackEvent("Parkhaus", "Klick auf Karte", item.sName, 0);
+
+                    RequestQueue queue = Volley.newRequestQueue(ctx);
+                    String url ="http://api.gruessung.eu/parken/statistik.php?id="+item.iId;
+                    // Request a string response from the provided URL.
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.v("STATISTIK", "### Fehler");
+                        }
+                    });
+                    queue.add(stringRequest);
+
+
                     final String name = item.sName;
+                    int iFrei = item.iGesamt - item.iBelegt;
                     AlertDialog.Builder localBuilder = new AlertDialog.Builder(ctx);
                     localBuilder.setTitle(item.sName);
-                    localBuilder.setMessage("Hier sollen dann die restlichen Parkhausinfos stehen");
+                    localBuilder.setMessage("Belegt: " + item.iBelegt + "/" + item.iGesamt + "\nFrei: " + iFrei + "\nStatus: " + item.sOeffnungsstand+"\nTendenz: "+item.sTendenz);
+                    localBuilder.setPositiveButton("Okay", null);
+
+                    /*
                     localBuilder.setPositiveButton("Navigation", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(v.getContext(), "geklickt auf Navigation", Toast.LENGTH_SHORT).show();
                             ((ParkenInErfurtApplication) appl).getTracker().trackEvent("Parkhaus", "Navigation", name, 0);
                         }
-                    }).setIcon(R.drawable.ic_action_info_outline);
+                    }).*/
+                    localBuilder.setIcon(R.drawable.ic_action_info_outline);
                     localBuilder.create().show();
 
 
-                    Toast.makeText(v.getContext(), "geklickt auf Karte " + item.sName, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(v.getContext(), "geklickt auf Karte " + item.sName, Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -146,7 +187,6 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         protected ImageView cardImage;
         protected TextView cardTitle;
-        protected TextView cardBelegung;
         protected CardView cardView;
         protected ImageView cardTrend;
         protected LinearLayout cardColor;
@@ -156,7 +196,6 @@ public class ParkhausCard extends RecyclerView.Adapter<ParkhausCard.ItemViewHold
             super(v);
             cardTitle = (TextView) v.findViewById(R.id.title);
             cardTrend = (ImageView) v.findViewById(R.id.btnTrend);
-            cardBelegung = (TextView) v.findViewById(R.id.belegung);
             cardView = (CardView) v.findViewById(R.id.card_view);
             cardColor = (LinearLayout) v.findViewById(R.id.cardColor);
         }

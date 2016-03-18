@@ -1,6 +1,9 @@
 package de.gvisions.parkeninerfurt;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,10 +11,20 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import de.gvisions.parkeninerfurt.fragments.AboutFragment;
 import de.gvisions.parkeninerfurt.fragments.MainFragment;
@@ -76,7 +89,96 @@ public class MainActivity extends MaterialNavHeadItemActivity {
 
         drawer = this;
 
+        SharedPreferences localSharedPreferences = getSharedPreferences("de.gvisions.parkeninerfurt", 0);
 
+        Object localObject = "";
+        try
+        {
+            String str = String.valueOf(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+            localObject = str;
+            if (!Boolean.valueOf(localSharedPreferences.getBoolean("version_" + (String)localObject, false)).booleanValue())
+            {
+
+                WebView wv = new WebView(this);
+                wv.loadUrl("http://api.gruessung.eu/parken/whatsNew.php");
+                wv.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+
+                        return true;
+                    }
+                });
+
+                AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+                localBuilder.setTitle("Neu in Version " + (String)localObject);
+                localBuilder.setView(wv);
+                localBuilder.setPositiveButton("Woohoo!", null);
+                localBuilder.setIcon(R.drawable.ic_action_info_outline);
+                localBuilder.create().show();
+                localSharedPreferences.edit().putBoolean("version_" + (String)localObject, true).commit();
+
+            }
+
+            localObject = str;
+            if (!Boolean.valueOf(localSharedPreferences.getBoolean("abfrageErfurt", false)).booleanValue())
+            {
+                AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+                localBuilder.setTitle("Erlaube mir eine kurze Info :)");
+                localBuilder.setMessage("Die App sammelt anonym Daten, welche Parkhäuser wie oft angeklickt werden.\nEs werden von dir keine Daten übertragen oder gespeichert.\n\nEine kurze Frage zum Schluss, kommst du aus Erfurt oder von außerorts").setPositiveButton("Ich komme aus Erfurt", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RequestQueue queue = Volley.newRequestQueue(getBaseContext());
+                        String url = "http://api.gruessung.eu/parken/statistik.php?id=erfurtJa";
+                        // Request a string response from the provided URL.
+                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.v("STATISTIK", "### Fehler");
+                            }
+                        });
+                        queue.add(stringRequest);
+                    }
+                });
+                localBuilder.setNegativeButton("Ich komme von außerorts", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RequestQueue queue = Volley.newRequestQueue(getBaseContext());
+                        String url ="http://api.gruessung.eu/parken/statistik.php?id=erfurtNein";
+                        // Request a string response from the provided URL.
+                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.v("STATISTIK", "### Fehler");
+                            }
+                        });
+                        queue.add(stringRequest);
+                    }
+                });
+                localBuilder.create().show();
+                localSharedPreferences.edit().putBoolean("abfrageErfurt", true).commit();
+
+            }
+
+
+        }
+        catch (PackageManager.NameNotFoundException localNameNotFoundException)
+        {
+            while (true)
+                localNameNotFoundException.printStackTrace();
+        }
 
         // create menu
         MaterialMenu menu = new MaterialMenu();
@@ -130,6 +232,7 @@ public class MainActivity extends MaterialNavHeadItemActivity {
         super.onPostCreate(savedInstanceState);
         afterInit(savedInstanceState);
     }
+
 
 
 

@@ -2,11 +2,8 @@ package de.gvisions.parkeninerfurt.fragments;
 
 import android.app.Application;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -18,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,15 +26,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import de.gvisions.parkeninerfurt.R;
 import de.gvisions.parkeninerfurt.cards.ParkhausCard;
 import de.gvisions.parkeninerfurt.objects.Parkhaus;
-import de.gvisions.parkeninerfurt.service.JsonFetcher;
 
 /**
  * Created by alex on 26.02.16.
@@ -67,6 +60,8 @@ public class MainFragment extends Fragment {
 
         appl = getActivity().getApplication();
         main = this;
+
+
 
 
 
@@ -202,7 +197,9 @@ public class MainFragment extends Fragment {
             item.iBelegt = c.getInt("belegt");
             item.sOeffnungsstand = c.getString("oeffnungszustand");
             item.iId = c.getInt("id");
-            Log.d("TEST", item.sName);
+            item.sTendenz = "nix";
+            item.sTendenz = c.getString("tendenz");
+            Log.d("TEST", item.sTendenz);
         } catch (JSONException e) {
         }
         return item;

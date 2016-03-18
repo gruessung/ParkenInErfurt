@@ -15,7 +15,7 @@ public class Parkhaus {
     public String sBemerkungen;
     public int iBelegt;
     public int iGesamt;
-    public String sTendenz;
+    public String sTendenz = "nix2";
     public String sOeffnungsstand;
     public String sStatus;
 
