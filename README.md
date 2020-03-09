@@ -4,5 +4,8 @@
 
 Android App, welche den aktuellen Füllstand im Parkleitsystem der Stadt Erfurt anzeigt
 
+## Take a look
+[New version with quasar](https://github.com/gruessung/q_parkeninerfurt)
+
 # Download
 [![Download App](https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png)](https://play.google.com/store/apps/details?id=de.gvisions.parkeninerfurt "Download App")
